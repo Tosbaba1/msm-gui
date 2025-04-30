@@ -46,7 +46,7 @@ class MoviesController < ApplicationController
     matching_movies = Movie.where({ :id => the_id })
     @the_movie = matching_movies.at(0)
 
-    @the_director.update(
+    @the_movie.update(
       title: params[:query_title],
       year: params[:query_year],
       duration: params[:query_duration],
@@ -55,6 +55,6 @@ class MoviesController < ApplicationController
       director_id: params[:query_director_id],
     )
     
-    render({ :template => "director_templates/show" })
+    redirect_to("/movies/#{@the_movie.id}")
   end
 end

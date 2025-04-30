@@ -73,6 +73,6 @@ class DirectorsController < ApplicationController
       image: params[:query_image],
     )
     
-    render({ :template => "director_templates/show" })
+    redirect_to("/directors/#{@the_director.id}")
   end
 end

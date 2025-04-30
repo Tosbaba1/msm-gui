@@ -30,7 +30,7 @@ class ActorsController < ApplicationController
 
   def destroy
     the_id = params.fetch("path_id")
-    matching_actors = actor.where({ :id => the_id })
+    matching_actors = Actor.where({ :id => the_id })
     actor = matching_actors.at(0)
 
     actor.destroy
@@ -41,7 +41,7 @@ class ActorsController < ApplicationController
   def modify
     the_id = params.fetch("path_id")
 
-    matching_actors = actor.where({ :id => the_id })
+    matching_actors = Actor.where({ :id => the_id })
     @the_actor = matching_actors.at(0)
 
     @the_actor.update(
@@ -51,6 +51,6 @@ class ActorsController < ApplicationController
       image: params[:query_image],
     )
 
-    render({ :template => "actor_templates/show" })
+    redirect_to("/actors/#{@the_actor.id}")
   end
 end
