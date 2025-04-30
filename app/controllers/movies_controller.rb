@@ -14,4 +14,47 @@ class MoviesController < ApplicationController
 
     render({ :template => "movie_templates/show" })
   end
+
+  def create
+    new_movie = Movie.new
+
+    new_movie.title = params.fetch("query_title")
+    new_movie.year = params.fetch("query_year")
+    new_movie.duration = params.fetch("query_duration")
+    new_movie.description = params.fetch("query_description")
+    new_movie.image = params.fetch("query_image")
+    new_movie.director_id = params.fetch("query_director_id")
+
+    new_movie.save
+
+    redirect_to("/movies")
+  end
+
+  def destroy
+    the_id = params.fetch("path_id")
+    matching_movies = Movie.where({ :id => the_id })
+    movie = matching_movies.at(0)
+
+    movie.destroy
+
+    redirect_to("/movies")
+  end
+
+  def modify
+    the_id = params.fetch("path_id")
+
+    matching_movies = Movie.where({ :id => the_id })
+    @the_movie = matching_movies.at(0)
+
+    @the_director.update(
+      title: params[:query_title],
+      year: params[:query_year],
+      duration: params[:query_duration],
+      description: params[:query_description],
+      image: params[:query_image],
+      director_id: params[:query_director_id],
+    )
+    
+    render({ :template => "director_templates/show" })
+  end
 end
