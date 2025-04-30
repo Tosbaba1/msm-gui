@@ -31,7 +31,7 @@ class DirectorsController < ApplicationController
       all.
       where.not({ :dob => nil }).
       order({ :dob => :asc })
-      
+
     @eldest = directors_by_dob_asc.at(0)
 
     render({ :template => "director_templates/eldest" })
@@ -40,13 +40,27 @@ class DirectorsController < ApplicationController
   def create
     new_director = Director.new
 
-    new_director.name=params.fetch("query_name")
-    new_director.dob=params.fetch("query_dob")
-    new_director.bio=params.fetch("query_bio")
-    new_director.image=params.fetch("query_image")
+    new_director.name = params.fetch("query_name")
+    new_director.dob = params.fetch("query_dob")
+    new_director.bio = params.fetch("query_bio")
+    new_director.image = params.fetch("query_image")
 
     new_director.save
+
+    redirect_to("/directors")
+  end
+
+  def destroy
+    the_id = params.fetch("path_id")
+    matching_directors = Director.where({ :id => the_id })
+    director = matching_directors.at(0)
+
+    director.destroy
+
+    redirect_to("/directors")
+  end
+
+  def modify
     
-    redirect_to "/directors"
   end
 end
